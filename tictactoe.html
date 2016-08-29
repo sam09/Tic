@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC>
+<html>
+	<head>
+		<link rel="stylesheet" type='text/css' href='tic.css'></link>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src='tictactoe.js' type='text/javascript'></script>
+		<title>Trying Out MinMax</title>
+	</head>
+	
+	<body>
+		<label id='turn'>Player 1 is X and Player 2 is O</label>
+		<button onclick = "restart()">Restart</button>
+		<table id="board" border = "1px solid black">
+		</table>
+		<script> 
+			$(window).load(restartEnv());
+			$(document).load(function(){
+					$('#board')[0].style.marginLeft = parseInt(document.body.offsetWidth/2) +"px";	
+			}());
+		</script>
+		
+	</body>
+
+</html>

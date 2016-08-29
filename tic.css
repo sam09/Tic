@@ -1,0 +1,14 @@
+.board
+{
+	background-color:blue;
+	height:80px;
+	width:80px;
+	border:2px solid black;
+}
+td
+{
+	color:yellow;
+	font-family:Cursive;
+	font-size:200%;
+	text-align: center;
+}
