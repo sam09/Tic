@@ -88,3 +88,101 @@ function restartEnv()
 	}
 	board.innerHTML = html;
 }
+
+function getAllMoves(gBoard, player)
+{
+	var moves = [];
+	for(var i=0; i<9; i++)
+	{
+		if( gBoard[i] == -1)
+		{
+			gBoard[i] = player;
+			var b = [];
+			for(var j in gBoard)
+				b.push(gBoard[j])
+			moves.push(b);
+			gBoard[i] = -1;
+		}
+	}
+	return moves;
+}
+var AIBot = {
+	//Our Bot: It will be the best TicTacToe player ever
+	
+	//minmax
+	
+
+	minmax: function(gBoard, player)
+	{
+		var f = isVictory(gBoard);
+		var bestValue, bestMove;
+		bestMove = null;
+		if(f == -1)
+		{
+			if( player == 0) // The max ply
+			{
+				bestValue = -Infinity;
+				var moves = getAllMoves(gBoard, player);	
+				for (var i in moves)
+				{
+					//console.log(moves[i])
+					var scoreObject = AIBot.minmax(moves[i], 1 - player);
+					if(scoreObject["value"] > bestValue)
+					{
+						bestValue = scoreObject["value"];
+						bestMove = moves[i];
+					}
+				}
+			}
+			if(player == 1) // The min ply
+			{
+				bestValue = Infinity;
+				var moves = getAllMoves(gBoard, player);
+				for (var i in moves)
+				{
+					var scoreObject = AIBot.minmax(moves[i], 1 - player);
+					if(scoreObject["value"] < bestValue)
+					{
+						bestValue = scoreObject["value"];
+						bestMove = moves[i];
+					}
+				}
+			}
+		}
+		else if(f==1)
+		{
+			bestValue = -10;
+			bestMove = gBoard;
+		}
+		else if(f==0)
+		{
+			bestValue = 10;
+			bestMove = gBoard;
+		}
+		else
+		{
+			bestValue = 0;
+			bestMove = gBoard;
+		}
+		var score = {
+					value: bestValue,
+					move: bestMove
+		};
+		//console.log(score);
+		return score;
+	},
+
+	move: function()
+	{
+		var score = AIBot.minmax(myBoard, 0);
+		console.log(score);
+		for(var i=0; i<9; i++)
+		{
+			if(score["move"][i] != myBoard[i])
+			{
+				play(i+1);
+				console.log(i);
+			}
+		}
+	}
+}
