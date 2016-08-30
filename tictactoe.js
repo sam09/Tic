@@ -109,10 +109,9 @@ function getAllMoves(gBoard, player)
 var AIBot = {
 	//Our Bot: It will be the best TicTacToe player ever
 	
-	//minmax
+	//minimax
 	
-
-	minmax: function(gBoard, player)
+	minimax: function(gBoard, player)
 	{
 		var f = isVictory(gBoard);
 		var bestValue, bestMove;
