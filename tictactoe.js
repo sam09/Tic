@@ -20,12 +20,15 @@ function play(i)
 	if(f!=-1)
 	{
 		if(f!=2)
-			alert(ch[f] + " has won");
+		{
+			$("#result")[0].innerHTML = ch[f] + " has won";
+		} 
 		else
-			alert("Valar Morghulis") //For lack of a better message
+			$("#result")[0].innerHTML = "Valar Morghulis"; //For lack of a better message
+
 		var board = $(".board");
-		for(var j in myBoard)
-			myBoard[j].onclick = null;
+		for(var j in board)
+			board[j].onclick = null;
 	}
 
 }
@@ -76,6 +79,7 @@ function restartEnv()
 {
 	var board = $("#board")[0];
 	var html = '';
+	$("#result")[0].innerHTML = null;
 	for(var i=1; i<=3; i++)
 	{
 		html += "<tr>";
@@ -125,7 +129,7 @@ var AIBot = {
 				for (var i in moves)
 				{
 					//console.log(moves[i])
-					var scoreObject = AIBot.minmax(moves[i], 1 - player);
+					var scoreObject = AIBot.minimax(moves[i], 1 - player);
 					if(scoreObject["value"] > bestValue)
 					{
 						bestValue = scoreObject["value"];
@@ -139,7 +143,7 @@ var AIBot = {
 				var moves = getAllMoves(gBoard, player);
 				for (var i in moves)
 				{
-					var scoreObject = AIBot.minmax(moves[i], 1 - player);
+					var scoreObject = AIBot.minimax(moves[i], 1 - player);
 					if(scoreObject["value"] < bestValue)
 					{
 						bestValue = scoreObject["value"];
@@ -173,7 +177,7 @@ var AIBot = {
 
 	move: function()
 	{
-		var score = AIBot.minmax(myBoard, 0);
+		var score = AIBot.minimax(myBoard, 0);
 		console.log(score);
 		for(var i=0; i<9; i++)
 		{
@@ -185,3 +189,20 @@ var AIBot = {
 		}
 	}
 }
+
+
+/* Game Loop*/
+var requestAnimationFrame =  window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame;
+
+function loop() {
+  if (currPlayer == 0) {
+    AIBot.move();
+  }
+  setTimeout(function() {
+    requestAnimationFrame(loop);
+  }, 125);
+};
+
+requestAnimationFrame(loop);
